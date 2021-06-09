@@ -3,17 +3,28 @@
         <title>Bible Beaver Blog</title>
         <meta charset="UTF-8"/>
         {% if description %}
-        <meta name="description" content="{{description}}"/>
+            <meta name="description" content="{{ description }}"/>
         {% endif %}
         <meta http-equiv="x-ua-compatible" content="ie=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover"/>
-        <link rel="stylesheet" href="/style.css?v={% version %}"/>
-        {% block head %}{% endblock %}
-  </head>
+        <link rel="stylesheet" href="/style.css?v={% version %}"/> {% block head %}{% endblock %}
+        <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    </head>
     <body>
         <h1>My Eleventy netlify blog</h1>
         {% block content %}
-        {{ content | safe }}
+            {{ content | safe }}
         {% endblock %}
+        <script>
+            if (window.netlifyIdentity) {
+                window.netlifyIdentity.on("init", user => {
+                    if (!user) {
+                        window.netlifyIdentity.on("login", () => {
+                            document.location.href = "/admin/";
+                        });
+                    }
+                });
+            }
+        </script>
     </body>
 </html>
